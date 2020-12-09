@@ -3,7 +3,6 @@ using RestWitASP_NET5Udemy.Model.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestWitASP_NET5Udemy.Services.Implementations
 {
@@ -13,6 +12,16 @@ namespace RestWitASP_NET5Udemy.Services.Implementations
         public PersonServiceImplementation(MySQLContext context)
         {
             _context = context;
+        }
+
+        public List<Person> FindAll()
+        {
+            return _context.Persons.ToList();
+        }
+
+        public Person FindByID(long id)
+        {
+            return _context.Persons.SingleOrDefault(person => person.Id.Equals(id));
         }
         public Person Create(Person person)
         {
@@ -37,7 +46,7 @@ namespace RestWitASP_NET5Udemy.Services.Implementations
             }
             try
             {
-                _context.Remove(_person);
+                _context.Persons.Remove(_person);
                 _context.SaveChanges();
             }
             catch (Exception)
@@ -45,16 +54,6 @@ namespace RestWitASP_NET5Udemy.Services.Implementations
 
                 throw;
             }
-        }
-
-        public List<Person> FindAll()
-        {
-            return _context.Persons.ToList();
-        }
-
-        public Person FindByID(long id)
-        {
-            return _context.Persons.SingleOrDefault(person => person.Id.Equals(id));
         }
 
         public Person Update(Person person)
@@ -66,7 +65,7 @@ namespace RestWitASP_NET5Udemy.Services.Implementations
             }
             try
             {
-                _context.Update(person);
+                _context.Entry(_person).CurrentValues.SetValues(person);
                 _context.SaveChanges();
             }
             catch (Exception)
