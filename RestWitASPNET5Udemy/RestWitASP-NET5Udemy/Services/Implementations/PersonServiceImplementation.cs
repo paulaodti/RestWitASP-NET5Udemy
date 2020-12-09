@@ -1,4 +1,5 @@
 ﻿using RestWitASP_NET5Udemy.Model;
+using RestWitASP_NET5Udemy.Model.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,45 +9,71 @@ namespace RestWitASP_NET5Udemy.Services.Implementations
 {
     public class PersonServiceImplementation : IPersonService
     {
+        private MySQLContext _context;
+        public PersonServiceImplementation(MySQLContext context)
+        {
+            _context = context;
+        }
         public Person Create(Person person)
         {
+            try
+            {
+                _context.Add(person);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return person;
         }
 
         public void Delete(long id)
         {
+            var _person = FindByID(id);
+            if (_person == null)
+            {
+                return;
+            }
+            try
+            {
+                _context.Remove(_person);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public List<Person> FindAll()
         {
-            var persons = new List<Person>();
-            for (int i = 0; i<=8; i++)
-            {
-                persons.Add(MockPerson(i));
-            };
-            return persons;
+            return _context.Persons.ToList();
         }
 
         public Person FindByID(long id)
         {
-            return MockPerson(Convert.ToInt32(id));
+            return _context.Persons.SingleOrDefault(person => person.Id.Equals(id));
         }
 
         public Person Update(Person person)
         {
-            return person;
-        }
-
-        public Person MockPerson(int i)
-        {
-            return new Person
+            var _person = FindByID(person.Id);
+            if (_person == null)
             {
-                Id = i,
-                FirstName = "Paulo Henrique " + i,
-                Address = "Rua Monte Castelo Branco, Cambui, Minas Gerais",
-                Gender = "Male",
-                LastName = "Andrade Teixeira"
-            };
+                return new Person();
+            }
+            try
+            {
+                _context.Update(person);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return person;
         }
     }
 }

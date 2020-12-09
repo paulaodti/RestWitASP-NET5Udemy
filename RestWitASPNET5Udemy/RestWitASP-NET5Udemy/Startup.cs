@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RestWitASP_NET5Udemy.Model.Context;
 using RestWitASP_NET5Udemy.Services;
 using RestWitASP_NET5Udemy.Services.Implementations;
 using System;
@@ -29,7 +31,9 @@ namespace RestWitASP_NET5Udemy
         {
 
             services.AddControllers();
+            var connection = Configuration["MySQLConnection:MySQLConnecionString"];
 
+            services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
             //Dependency Injection
             services.AddScoped<IPersonService, PersonServiceImplementation>();
         }

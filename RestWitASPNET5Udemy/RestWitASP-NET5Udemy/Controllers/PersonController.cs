@@ -42,7 +42,7 @@ namespace RestWitASP_NET5Udemy.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Person person)
         {
-            if (person != null)
+            if (person == null)
                 return BadRequest();
             return Ok(_personService.Create(person));
         }
