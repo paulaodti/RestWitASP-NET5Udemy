@@ -34,6 +34,8 @@ namespace RestWitASP_NET5Udemy
             var connection = Configuration["MySQLConnection:MySQLConnecionString"];
 
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
+            services.AddApiVersioning();
+
             //Dependency Injection
             services.AddScoped<IPersonService, PersonServiceImplementation>();
         }
