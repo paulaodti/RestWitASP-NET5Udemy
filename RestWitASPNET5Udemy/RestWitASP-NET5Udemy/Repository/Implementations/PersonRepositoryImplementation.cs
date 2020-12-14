@@ -61,9 +61,7 @@ namespace RestWitASP_NET5Udemy.Repository.Implementations
         {
             var _person = FindByID(person.Id);
             if (_person == null)
-            {
-                return new Person();
-            }
+                return _person;
             try
             {
                 _context.Entry(_person).CurrentValues.SetValues(person);
