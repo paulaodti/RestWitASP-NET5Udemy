@@ -1,0 +1,11 @@
+﻿CREATE TABLE `book` (
+	`id` INT(10) UNSIGNED NOT NULL,
+	`author` VARCHAR(50) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+	`launch_date` DATETIME NULL DEFAULT NULL,
+	`price` DECIMAL(10,2) NULL DEFAULT NULL,
+	`title` VARCHAR(100) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+;
