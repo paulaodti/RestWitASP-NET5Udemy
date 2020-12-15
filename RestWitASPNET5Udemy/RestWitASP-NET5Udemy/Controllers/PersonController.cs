@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestWitASP_NET5Udemy.Business;
+using RestWitASP_NET5Udemy.Business.Interfaces;
 using RestWitASP_NET5Udemy.Model;
 
 namespace RestWitASP_NET5Udemy.Controllers

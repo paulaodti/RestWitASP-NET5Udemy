@@ -1,5 +1,6 @@
-﻿using RestWitASP_NET5Udemy.Model;
-using RestWitASP_NET5Udemy.Repository;
+﻿using RestWitASP_NET5Udemy.Business.Interfaces;
+using RestWitASP_NET5Udemy.Model;
+using RestWitASP_NET5Udemy.Repository.Interfaces;
 using System.Collections.Generic;
 
 namespace RestWitASP_NET5Udemy.Business.Implementations

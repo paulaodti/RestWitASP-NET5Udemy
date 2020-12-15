@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RestWitASP_NET5Udemy.Repository
+namespace RestWitASP_NET5Udemy.Business.Interfaces
 {
-    public interface IPersonRepository
+    public interface IPersonBusiness
     {
         Person Create(Person person);
         Person FindByID(long id);

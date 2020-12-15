@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RestWitASP_NET5Udemy.Business;
 using RestWitASP_NET5Udemy.Business.Implementations;
+using RestWitASP_NET5Udemy.Business.Interfaces;
 using RestWitASP_NET5Udemy.Model.Context;
-using RestWitASP_NET5Udemy.Repository;
 using RestWitASP_NET5Udemy.Repository.Implementations;
+using RestWitASP_NET5Udemy.Repository.Interfaces;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -48,6 +48,8 @@ namespace RestWitASP_NET5Udemy
             //Dependency Injection
             services.AddScoped<IPersonBusiness,PersonBusinessImplementation>();
             services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
+            services.AddScoped<IBookBusiness, BookBusinessImplementation>();
+            services.AddScoped<IBookRepository, BookRepositoryImplementation>();
         }
 
         private void MigrarDatabase(string connection)
