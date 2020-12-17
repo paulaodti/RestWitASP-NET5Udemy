@@ -1,18 +1,15 @@
 ﻿using RestWitASP_NET5Udemy.Business.Interfaces;
 using RestWitASP_NET5Udemy.Model;
-using RestWitASP_NET5Udemy.Repository.Interfaces;
-using System;
+using RestWitASP_NET5Udemy.Repository.Generic;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestWitASP_NET5Udemy.Business.Implementations
 {
     public class BookBusinessImplementation : IBookBusiness
     {
-        IBookRepository _repository; 
+        IRepository<Book> _repository; 
 
-        public BookBusinessImplementation(IBookRepository repository)
+        public BookBusinessImplementation(IRepository<Book> repository)
         {
             _repository = repository;
         }
@@ -40,6 +37,11 @@ namespace RestWitASP_NET5Udemy.Business.Implementations
         public Book Update(Book book)
         {
             return _repository.Update(book);
+        }
+
+        List<Book> IBookBusiness.FindAll()
+        {
+            return _repository.FindAll();
         }
     }
 }

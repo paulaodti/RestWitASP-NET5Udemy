@@ -1,14 +1,12 @@
-﻿using System;
+﻿using RestWitASP_NET5Udemy.Model.Base;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestWitASP_NET5Udemy.Model
 {
     [Table("book")]
-    public class Book
+    public class Book : BaseEntity
     {
-        [Column("id")]
-        public long Id { get; set; }
-
         [Column("author")]
         public string Author { get; set; }
 
