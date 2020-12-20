@@ -1,4 +1,6 @@
 ﻿using RestWitASP_NET5Udemy.Business.Interfaces;
+using RestWitASP_NET5Udemy.Data.Converter.Implementations;
+using RestWitASP_NET5Udemy.Data.VO;
 using RestWitASP_NET5Udemy.Model;
 using RestWitASP_NET5Udemy.Repository.Generic;
 using System.Collections.Generic;
@@ -7,16 +9,18 @@ namespace RestWitASP_NET5Udemy.Business.Implementations
 {
     public class BookBusinessImplementation : IBookBusiness
     {
-        IRepository<Book> _repository; 
+        private readonly IRepository<Book> _repository;
+        private readonly BookConverter _converter;
 
         public BookBusinessImplementation(IRepository<Book> repository)
         {
             _repository = repository;
+            _converter = new BookConverter();
         }
 
-        public Book Create(Book book)
+        public BookVO Create(BookVO book)
         {
-            return _repository.Create(book);
+            return _converter.Parse(_repository.Create(_converter.Parse(book)));
         }
 
         public void Delete(long id)
@@ -24,24 +28,19 @@ namespace RestWitASP_NET5Udemy.Business.Implementations
             _repository.Delete(id);
         }
 
-        public List<Book> FindAll()
+        public List<BookVO> FindAll()
         {
-           return _repository.FindAll();
+           return _converter.Parse(_repository.FindAll());
         }
 
-        public Book FindByID(long id)
+        public BookVO FindByID(long id)
         {
-            return _repository.FindByID(id);
+            return _converter.Parse(_repository.FindByID(id));
         }
 
-        public Book Update(Book book)
+        public BookVO Update(BookVO book)
         {
-            return _repository.Update(book);
-        }
-
-        List<Book> IBookBusiness.FindAll()
-        {
-            return _repository.FindAll();
+            return _converter.Parse(_repository.Update(_converter.Parse(book)));
         }
     }
 }

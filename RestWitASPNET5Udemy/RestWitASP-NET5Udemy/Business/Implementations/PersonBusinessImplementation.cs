@@ -1,4 +1,6 @@
 ﻿using RestWitASP_NET5Udemy.Business.Interfaces;
+using RestWitASP_NET5Udemy.Data.Converter.Implementations;
+using RestWitASP_NET5Udemy.Data.VO;
 using RestWitASP_NET5Udemy.Model;
 using RestWitASP_NET5Udemy.Repository.Generic;
 using System.Collections.Generic;
@@ -7,14 +9,16 @@ namespace RestWitASP_NET5Udemy.Business.Implementations
 {
     public class PersonBusinessImplementation : IPersonBusiness
     {
-        IRepository<Person> _repository;
+        private readonly IRepository<Person> _repository;
+        private readonly PersonConverter _converter;
         public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
+            _converter = new PersonConverter();
         }
-        public Person Create(Person person)
+        public PersonVO Create(PersonVO person)
         {
-            return _repository.Create(person);
+            return _converter.Parse(_repository.Create(_converter.Parse(person)));
         }
 
         public void Delete(long id)
@@ -22,19 +26,19 @@ namespace RestWitASP_NET5Udemy.Business.Implementations
             _repository.Delete(id);
         }
 
-        public List<Person> FindAll()
+        public List<PersonVO> FindAll()
         {
-            return _repository.FindAll();
+            return _converter.Parse(_repository.FindAll());
         }
 
-        public Person FindByID(long id)
+        public PersonVO FindByID(long id)
         {
-            return _repository.FindByID(id);
+            return _converter.Parse(_repository.FindByID(id));
         }
 
-        public Person Update(Person person)
+        public PersonVO Update(PersonVO person)
         {
-            return _repository.Update(person);
+            return _converter.Parse(_repository.Update(_converter.Parse(person)));
         }
     }
 }

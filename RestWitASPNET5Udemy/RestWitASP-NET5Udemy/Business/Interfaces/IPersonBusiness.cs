@@ -1,17 +1,14 @@
-﻿using RestWitASP_NET5Udemy.Model;
-using System;
+﻿using RestWitASP_NET5Udemy.Data.VO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestWitASP_NET5Udemy.Business.Interfaces
 {
     public interface IPersonBusiness
     {
-        Person Create(Person person);
-        Person FindByID(long id);
-        List<Person> FindAll();
-        Person Update(Person person);
+        PersonVO Create(PersonVO PersonVO);
+        PersonVO FindByID(long id);
+        List<PersonVO> FindAll();
+        PersonVO Update(PersonVO PersonVO);
         void Delete(long id);
     }
 }

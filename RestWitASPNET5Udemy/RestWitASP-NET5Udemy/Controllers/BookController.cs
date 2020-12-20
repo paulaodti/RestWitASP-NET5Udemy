@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestWitASP_NET5Udemy.Business.Interfaces;
-using RestWitASP_NET5Udemy.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RestWitASP_NET5Udemy.Data.VO;
 
 namespace RestWitASP_NET5Udemy.Controllers
 {
@@ -40,7 +36,7 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Book book)
+        public ActionResult Post([FromBody] BookVO book)
         {
             if (book == null)
                 return BadRequest();
@@ -48,7 +44,7 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] Book book)
+        public ActionResult Put([FromBody] BookVO book)
         {
             if (book == null)
                 return BadRequest();

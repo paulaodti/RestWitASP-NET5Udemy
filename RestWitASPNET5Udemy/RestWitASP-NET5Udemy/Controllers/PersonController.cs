@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestWitASP_NET5Udemy.Business.Interfaces;
-using RestWitASP_NET5Udemy.Model;
+using RestWitASP_NET5Udemy.Data.VO;
 
 namespace RestWitASP_NET5Udemy.Controllers
 {
@@ -37,7 +37,7 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Person person)
+        public ActionResult Post([FromBody] PersonVO person)
         {
             if (person == null)
                 return BadRequest();
@@ -45,7 +45,7 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] Person person)
+        public ActionResult Put([FromBody] PersonVO person)
         {
             if (person == null)
                 return BadRequest();

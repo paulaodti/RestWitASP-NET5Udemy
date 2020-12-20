@@ -8,8 +8,6 @@ using RestWitASP_NET5Udemy.Business.Implementations;
 using RestWitASP_NET5Udemy.Business.Interfaces;
 using RestWitASP_NET5Udemy.Model.Context;
 using RestWitASP_NET5Udemy.Repository.Generic;
-using RestWitASP_NET5Udemy.Repository.Implementations;
-using RestWitASP_NET5Udemy.Repository.Interfaces;
 using Serilog;
 using System;
 using System.Collections.Generic;
