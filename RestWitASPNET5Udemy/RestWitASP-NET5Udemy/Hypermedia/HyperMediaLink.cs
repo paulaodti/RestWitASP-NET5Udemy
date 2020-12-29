@@ -10,7 +10,7 @@ namespace RestWitASP_NET5Udemy.Hypermedia
             get 
             {
                 object _lock = new object();
-                lock(_lock)
+                lock (_lock)
                 {
                     StringBuilder sb = new StringBuilder(_href);
                     return sb.Replace("%2F", "/").ToString();

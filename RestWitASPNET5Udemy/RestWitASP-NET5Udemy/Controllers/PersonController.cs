@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RestWitASP_NET5Udemy.Business.Interfaces;
 using RestWitASP_NET5Udemy.Data.VO;
 using RestWitASP_NET5Udemy.Hypermedia.Filters;
+using System.Collections.Generic;
 
 namespace RestWitASP_NET5Udemy.Controllers
 {
@@ -22,6 +23,10 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public ActionResult Get()
         {
