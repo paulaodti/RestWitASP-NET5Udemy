@@ -7,6 +7,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using RestWitASP_NET5Udemy.Business.Implementations;
 using RestWitASP_NET5Udemy.Business.Interfaces;
+using RestWitASP_NET5Udemy.Hypermedia;
+using RestWitASP_NET5Udemy.Hypermedia.Abstract;
+using RestWitASP_NET5Udemy.Hypermedia.Enricher;
+using RestWitASP_NET5Udemy.Hypermedia.Filters;
 using RestWitASP_NET5Udemy.Model.Context;
 using RestWitASP_NET5Udemy.Repository.Generic;
 using Serilog;
@@ -46,6 +50,11 @@ namespace RestWitASP_NET5Udemy
                 options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
                 options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
             }).AddXmlSerializerFormatters();
+
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
+
+            services.AddSingleton(filterOptions);
 
             if (Environment.IsDevelopment())
             {
@@ -94,6 +103,7 @@ namespace RestWitASP_NET5Udemy
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
         }
     }

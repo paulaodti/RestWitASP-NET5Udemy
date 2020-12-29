@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using RestWitASP_NET5Udemy.Business.Interfaces;
 using RestWitASP_NET5Udemy.Data.VO;
+using RestWitASP_NET5Udemy.Hypermedia.Filters;
 
 namespace RestWitASP_NET5Udemy.Controllers
 {
@@ -21,12 +22,14 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public ActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
         }
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public ActionResult Get(long id)
         {
             var person = _personBusiness.FindByID(id);
@@ -37,6 +40,7 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpPost]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public ActionResult Post([FromBody] PersonVO person)
         {
             if (person == null)
@@ -45,6 +49,7 @@ namespace RestWitASP_NET5Udemy.Controllers
         }
 
         [HttpPut]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public ActionResult Put([FromBody] PersonVO person)
         {
             if (person == null)
