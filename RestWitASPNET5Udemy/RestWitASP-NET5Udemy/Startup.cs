@@ -9,8 +9,6 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using RestWitASP_NET5Udemy.Business.Implementations;
 using RestWitASP_NET5Udemy.Business.Interfaces;
-using RestWitASP_NET5Udemy.Hypermedia;
-using RestWitASP_NET5Udemy.Hypermedia.Abstract;
 using RestWitASP_NET5Udemy.Hypermedia.Enricher;
 using RestWitASP_NET5Udemy.Hypermedia.Filters;
 using RestWitASP_NET5Udemy.Model.Context;
@@ -39,9 +37,16 @@ namespace RestWitASP_NET5Udemy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = Configuration["MySQLConnection:MySQLConnecionString"];
+
+            services.AddCors(options => options.AddDefaultPolicy(builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
 
             services.AddControllers();
-            var connection = Configuration["MySQLConnection:MySQLConnecionString"];
 
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
             services.AddApiVersioning();
@@ -115,6 +120,8 @@ namespace RestWitASP_NET5Udemy
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseSwagger();
 
