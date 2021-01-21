@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
@@ -5,17 +7,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using RestWitASP_NET5Udemy.Business.Implementations;
 using RestWitASP_NET5Udemy.Business.Interfaces;
+using RestWitASP_NET5Udemy.Configurations;
+using RestWitASP_NET5Udemy.Controllers;
 using RestWitASP_NET5Udemy.Hypermedia.Enricher;
 using RestWitASP_NET5Udemy.Hypermedia.Filters;
 using RestWitASP_NET5Udemy.Model.Context;
+using RestWitASP_NET5Udemy.Repository;
 using RestWitASP_NET5Udemy.Repository.Generic;
+using RestWitASP_NET5Udemy.Services;
+using RestWitASP_NET5Udemy.Services.Implementations;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace RestWitASP_NET5Udemy
 {
@@ -38,6 +48,39 @@ namespace RestWitASP_NET5Udemy
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration["MySQLConnection:MySQLConnecionString"];
+
+            var tokenConfigurations = new TokenConfiguration();
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(
+                Configuration.GetSection("TokenConfiguration"))
+                .Configure(tokenConfigurations);
+
+            services.AddSingleton(tokenConfigurations);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = tokenConfigurations.Issuer,
+                    ValidAudience = tokenConfigurations.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+                };
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
 
             services.AddCors(options => options.AddDefaultPolicy(builder =>
             {
@@ -87,7 +130,10 @@ namespace RestWitASP_NET5Udemy
             //Dependency Injection
             services.AddScoped<IPersonBusiness,PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
             services.AddScoped(typeof (IRepository<>), typeof (Repository<>));
+            services.AddTransient<ITokenService, TokenService>();
         }
 
         private void MigrarDatabase(string connection)
@@ -105,7 +151,7 @@ namespace RestWitASP_NET5Udemy
             catch (Exception ex)
             {
                 Log.Error("Database migration failed", ex);
-                throw;
+                //throw;
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestWitASP_NET5Udemy.Business.Interfaces;
 using RestWitASP_NET5Udemy.Data.VO;
@@ -7,7 +8,9 @@ namespace RestWitASP_NET5Udemy.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize("Bearer")]
     [Route("api/v{version:apiVersion}/[controller]")]
+
     public class BookController : ControllerBase
     {
         private readonly ILogger<BookController> _logger;
