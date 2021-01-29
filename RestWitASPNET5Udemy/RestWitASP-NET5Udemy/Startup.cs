@@ -131,6 +131,7 @@ namespace RestWitASP_NET5Udemy
             services.AddScoped<IPersonBusiness,PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
             services.AddScoped(typeof (IRepository<>), typeof (Repository<>));
             services.AddTransient<ITokenService, TokenService>();
@@ -151,7 +152,7 @@ namespace RestWitASP_NET5Udemy
             catch (Exception ex)
             {
                 Log.Error("Database migration failed", ex);
-                //throw;
+                throw;
             }
         }
 
@@ -185,7 +186,7 @@ namespace RestWitASP_NET5Udemy
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
+                endpoints.MapControllerRoute("DefaultApi", "{controller}/{id}");
             });
         }
     }

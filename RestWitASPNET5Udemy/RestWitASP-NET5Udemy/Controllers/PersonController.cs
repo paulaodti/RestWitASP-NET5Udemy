@@ -35,6 +35,28 @@ namespace RestWitASP_NET5Udemy.Controllers
             return Ok(_personBusiness.FindAll());
         }
 
+        [HttpGet("findWithPagedSearch/{sortDirection}/{pageSize}/{page}")]
+        [ProducesResponseType(200, Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public ActionResult FindWithPagedSearch([FromQuery] string name, string sortDirection, int pageSize, int page)
+        {
+            return Ok(_personBusiness.FindWithPagedSearch(name, sortDirection, pageSize, page));
+        }
+
+        [HttpGet("findPersonByName")]
+        [ProducesResponseType(200, Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public ActionResult FindByName([FromQuery] string firstName, [FromQuery] string lastName)
+        {
+            return Ok(_personBusiness.FindByName(firstName, lastName));
+        }
+
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public ActionResult Get(long id)
